@@ -1,0 +1,6 @@
+{
+  "name": "InsureFlow",
+  "description": "Premium SaaS Landing Page and Hospital OS prototype for InsureFlow.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

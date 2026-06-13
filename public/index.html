@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KlaimShield AI | Revenue Defense Layer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #fafafa;
+      --teal-primary: #0d9488;
+      --coral-alert: #e11d48;
+      --yellow-accent: #fbbf24;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --glass-bg: #ffffff;
+      --glass-border: #e2e8f0;
+      --glass-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      --nav-height: 80px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Archivo', sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-muted);
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, h6, .display-font, .syne-font {
+      font-family: 'Archivo', sans-serif;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    p { font-size: clamp(1rem, 1.1vw, 1.125rem); margin-bottom: 1.5rem; }
+
+    /* ORBS LOOP */
+    .ambience {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      mix-blend-mode: multiply;
+      animation: morphingFloat 20s ease-in-out infinite alternate;
+    }
+    .orb-teal {
+      width: clamp(300px, 50vw, 800px); height: clamp(300px, 50vw, 800px);
+      background: var(--teal-primary);
+      top: -10%; left: -10%;
+      opacity: 0.05;
+    }
+    .orb-coral {
+      width: clamp(250px, 45vw, 700px); height: clamp(250px, 45vw, 700px);
+      background: var(--coral-alert);
+      bottom: -15%; right: -10%;
+      opacity: 0.05;
+      animation-delay: -5s;
+      animation-duration: 25s;
+    }
+    .orb-yellow {
+      width: clamp(200px, 40vw, 600px); height: clamp(200px, 40vw, 600px);
+      background: var(--yellow-accent);
+      top: 40%; left: 35%;
+      opacity: 0.05;
+      animation-delay: -12s;
+    }
+
+    @keyframes morphingFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(10vw, 15vh) scale(1.1); }
+      66% { transform: translate(-5vw, -10vh) scale(0.9); }
+      100% { transform: translate(-10vw, 10vh) scale(1.05); }
+    }
+
+    /* GLASSMORPHISM UTILS */
+    .glass {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+    }
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: clamp(1.5rem, 3vw, 2.5rem);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .glass-card > *:last-child {
+      margin-bottom: 0;
+    }
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px -4px rgba(15, 23, 42, 0.06);
+    }
+
+    /* TYPOGRAPHY UTILS */
+    .title-large { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .title-medium { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 1.5rem; }
+    .subtitle { color: var(--text-muted); font-size: clamp(1.125rem, 2vw, 1.35rem); line-height: 1.5; font-weight: 400; }
+    .gradient-text { background: linear-gradient(135deg, var(--text-main), var(--text-muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* LAYOUT UTILS */
+    .container {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 4vw, 3rem);
+    }
+    .section-spacing { padding: clamp(4rem, 8vw, 8rem) 0; }
+    .grid-wrap { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Archivo', sans-serif; font-weight: 600;
+      padding: 0.75rem 1.75rem; border-radius: 6px;
+      border: none; cursor: pointer; text-decoration: none;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+    }
+    .btn-primary { background: var(--teal-primary); color: #fff; }
+    .btn-primary:hover { background: var(--text-main); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2); }
+    .btn-outline { background: transparent; color: var(--teal-primary); border: 1px solid var(--teal-primary); }
+    .btn-outline:hover { background: var(--teal-primary); color: #fff; }
+    .btn-glass { background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-main); }
+    .btn-glass:hover { background: #f8fafc; }
+
+    /* NAVIGATION */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
+      z-index: 100;
+      border-radius: 0; border-left: none; border-right: none; border-top: none;
+      display: flex; align-items: center;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .logo { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; letter-spacing: -0.02em; }
+    .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+    .nav-link { font-weight: 600; text-decoration: none; color: var(--text-muted); transition: color 0.2s; }
+    .nav-link:hover { color: var(--teal-primary); }
+    
+    /* MOBILE NAV */
+    .hamburger { display: none; background: none; border: none; cursor: pointer; width: 32px; height: 24px; position: relative; z-index: 102; }
+    .hamburger span { display: block; position: absolute; height: 3px; width: 100%; background: var(--text-main); border-radius: 3px; transition: 0.25s ease-in-out; }
+    .hamburger span:nth-child(1) { top: 0px; }
+    .hamburger span:nth-child(2) { top: 10px; }
+    .hamburger span:nth-child(3) { top: 20px; }
+    .hamburger.active span:nth-child(1) { top: 10px; transform: rotate(135deg); background: var(--coral-alert); }
+    .hamburger.active span:nth-child(2) { opacity: 0; left: -60px; }
+    .hamburger.active span:nth-child(3) { top: 10px; transform: rotate(-135deg); background: var(--coral-alert); }
+
+    .mobile-menu {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      background: rgba(255, 246, 222, 0.85); backdrop-filter: blur(32px) saturate(180%); -webkit-backdrop-filter: blur(32px);
+      z-index: 101;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+    }
+    .mobile-menu.active { opacity: 1; pointer-events: all; }
+    .mobile-menu a { font-family: 'Archivo', sans-serif; font-size: 2rem; font-weight: 700; color: var(--text-main); text-decoration: none; transition: 0.2s; }
+    .mobile-menu a:hover { color: var(--teal-primary); }
+
+    @media (max-width: 1024px) {
+      .nav-links, .nav-actions { display: none !important; }
+      .hamburger { display: block; }
+    }
+
+    /* STATE ROUTER */
+    .view-layer { display: none; opacity: 0; transition: opacity 0.6s ease; width: 100%; }
+    .view-layer.active { display: block; opacity: 1; }
+
+    /* --- LANDING PAGE --- */
+    .hero-grid { grid-template-columns: 1fr 1fr; align-items: center; min-height: 90vh; padding-top: var(--nav-height); }
+    @media (max-width: 1024px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .hero-actions { justify-content: center; } }
+    
+    .hero-actions { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .hero-illustration { width: 100%; max-width: 600px; height: auto; margin: 0 auto; filter: drop-shadow(0 20px 40px rgba(15, 23, 42, 0.1)); }
+
+    /* FEATURE TAGS */
+    .pill { display: inline-flex; align-items: center; background: rgba(139, 223, 221, 0.2); color: var(--text-main); font-weight: 600; font-size: 0.875rem; padding: 0.5rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; border: 1px solid rgba(139, 223, 221, 0.5); }
+
+    /* PROBLEM GRID */
+    .cards-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .icon-box { width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 16px; background: rgba(244, 143, 104, 0.15); border: 1px solid rgba(244, 143, 104, 0.3); margin-bottom: 1.5rem; }
+    .icon-box svg { width: 32px; height: 32px; fill: var(--coral-alert); }
+
+    /* WORKFLOW MOAT */
+    .workflow-timeline { display: flex; flex-direction: column; gap: 1rem; position: relative; margin-top: 3rem; }
+    .workflow-item { display: flex; align-items: flex-start; gap: 1.5rem; padding: 2.5rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; transition: 0.3s; box-shadow: var(--glass-shadow); }
+    .workflow-item:hover { box-shadow: 0 12px 32px 0 rgba(15, 23, 42, 0.06); transform: translateY(-2px); }
+    .wf-number { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--teal-primary); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(13, 148, 136, 0.1); flex-shrink: 0; }
+    
+    /* PRICING */
+    .pricing-card { display: flex; flex-direction: column; position: relative; justify-content: flex-start; border-radius: 12px; }
+    .pricing-card.popular { border: 2px solid var(--teal-primary); background: var(--glass-bg); transform: scale(1.02); box-shadow: 0 16px 40px rgba(15,23,42,0.08); }
+    .popular-tag { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--teal-primary); color: #fff; font-weight: 600; font-size: 0.75rem; padding: 4px 16px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .price-amount { font-family: 'Archivo', sans-serif; font-size: 3rem; font-weight: 800; color: var(--text-main); margin: 0.5rem 0 0.25rem 0; letter-spacing: -0.03em; }
+    .price-freq { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+    .price-list { list-style: none; margin: 2rem 0; flex-grow: 1; }
+    .price-list li { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; color: var(--text-main); }
+    .price-list svg { width: 24px; height: 24px; fill: none; stroke: var(--teal-primary); flex-shrink: 0; }
+
+    /* FOOTER */
+    .footer { padding: 4rem 0 2rem; border-top: 1px solid var(--glass-border); margin-top: 4rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; } }
+    .footer-heading { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.5rem; }
+    .footer-link { display: block; color: var(--text-muted); text-decoration: none; margin-bottom: 0.75rem; transition: 0.2s; }
+    .footer-link:hover { color: var(--teal-primary); }
+
+    /* --- BOOT SEQUENCE --- */
+    .boot-wrap { display: flex; align-items: center; justify-content: center; height: 100vh; position: relative; overflow: hidden; }
+    .simple-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; background: var(--glass-bg); padding: 3rem 4rem; border-radius: 12px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); }
+    .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(13, 148, 136, 0.1); border-top-color: var(--teal-primary); border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* --- SYSTEM READY (DASHBOARD) --- */
+    .dashboard-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    @media (max-width: 1024px) { .dashboard-layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
+    
+    .sidebar { background: var(--glass-bg); backdrop-filter: blur(40px); border-right: 1px solid var(--glass-border); padding: 2rem; position: sticky; top: 0; left: 0; bottom: 0; max-height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+    .sidebar-brand { font-family: 'Archivo', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 3rem; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; letter-spacing: -0.03em;}
+    .side-nav { display: flex; flex-direction: column; gap: 0.25rem; }
+    .side-item { padding: 0.875rem 1rem; border-radius: 8px; text-decoration: none; color: var(--text-muted); font-weight: 600; transition: 0.2s; display: flex; align-items: center; gap: 0.75rem; }
+    .side-item:hover, .side-item.active { background: rgba(13, 148, 136, 0.1); color: var(--text-main); }
+    .side-item svg { fill: currentColor; width: 18px; height: 18px; }
+    
+    .dash-main { padding: 3rem; overflow-y: auto; }
+    @media (max-width: 768px) { .dash-main { padding: 1.5rem; margin-top: var(--nav-height); } }
+    .dash-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+    .welcome-text { font-size: 1.125rem; font-weight: 500; color: var(--text-muted); }
+    
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+    .stat-card { display: flex; flex-direction: column; justify-content: space-between; }
+    .stat-label { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .stat-value { font-family: 'Archivo', sans-serif; font-size: 2.25rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em; }
+    .stat-value.highlight { color: var(--teal-primary); }
+
+    .chart-panel { padding: 2.5rem; margin-bottom: 3rem; }
+    .chart-header { display: flex; justify-content: space-between; margin-bottom: 2rem; }
+    .chart-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 700; }
+    
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .data-table th { padding: 1rem; border-bottom: 2px solid var(--glass-border); font-size: 0.875rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+    .data-table td { padding: 1.25rem 1rem; border-bottom: 1px solid rgba(71, 85, 105, 0.1); font-weight: 500; color: var(--text-main); }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+    .badge-amber { background: rgba(244, 143, 104, 0.15); color: #C2410C; }
+    .badge-teal { background: rgba(139, 223, 221, 0.2); color: #075985; }
+    .badge-green { background: rgba(167, 243, 208, 0.4); color: #065F46; }
+
+    /* REBUTTAL TAB & STEPS */
+    .dash-tab { display: none; animation: fadeIn 0.4s ease; }
+    .dash-tab.active { display: block; }
+    .rebuttal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; }
+    @media (max-width: 1024px) { .rebuttal-grid { grid-template-columns: 1fr; } }
+    .dropzone-area { border: 2px dashed rgba(13, 148, 136, 0.4); border-radius: 12px; padding: 3rem 2rem; text-align: center; background: rgba(13, 148, 136, 0.03); color: var(--text-muted); cursor: pointer; transition: 0.2s ease; display:flex; flex-direction:column; align-items:center; }
+    .dropzone-area:hover { background: rgba(13, 148, 136, 0.08); border-color: var(--teal-primary); }
+    .step-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .step-item { display: flex; align-items: center; gap: 1rem; color: var(--text-muted); opacity: 0.4; transition: 0.3s ease; }
+    .step-item.active { opacity: 1; color: var(--text-main); font-weight: 600; }
+    .step-item.completed { opacity: 1; color: var(--teal-primary); font-weight: 500; }
+    .step-item.warning { opacity: 1; color: var(--coral-alert); font-weight: 600; }
+    .step-icon { width: 28px; height: 28px; border-radius: 50%; border: 1px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+    .step-item.completed .step-icon { background: var(--teal-primary); color: #fff; border-color: var(--teal-primary); }
+    .step-item.warning .step-icon { background: var(--coral-alert); color: #fff; border-color: var(--coral-alert); }
+
+    /* UTILS & ANIMATIONS */
+    .scroll-fade { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    .scroll-fade.in-view { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- AMBIENT BACKGROUND -->
+  <div class="ambience">
+    <div class="orb orb-teal"></div>
+    <div class="orb orb-coral"></div>
+    <div class="orb orb-yellow"></div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar glass" id="main-nav">
+    <div class="container nav-container">
+      <a href="#" class="logo" onclick="InsureApp.goTo('landing')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--teal-primary);">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        KlaimShield AI
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">The Engine</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#testimonials" class="nav-link">Hospitals</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-outline" style="border-width: 1px; padding: 0.6rem 1.5rem;" onclick="InsureApp.triggerBoot()">Client Login</button>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#features" class="mob-link">The Engine</a>
+    <a href="#pricing" class="mob-link">Pricing</a>
+    <button class="btn btn-primary" onclick="InsureApp.triggerBoot()">Launch Defense Portal</button>
+  </div>
+
+  <main id="app">
+
+    <!-- ================= VIEW: LANDING ================= -->
+    <div id="view-landing" class="view-layer active">
+      
+      <!-- HERO SECTION -->
+      <section class="container hero-grid section-spacing scroll-fade">
+        <div class="hero-content">
+          <div class="pill">Agentic Medical Billing</div>
+          <h1 class="title-large">Stop Letting TPAs Deduct Your Revenue.</h1>
+          <p class="subtitle">Convert cryptic insurance rejections into bulletproof, IRDAI-compliant legal rebuttals in 90 seconds flat. Engineered exclusively for Indian SMB hospitals to end revenue leakage.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="InsureApp.triggerBoot()">Launch Defense Portal</button>
+            <a href="#features" class="btn btn-glass">Learn How</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg" class="hero-illustration">
+            <defs>
+              <linearGradient id="shieldGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#8BDFDD" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#8BDFDD" stop-opacity="0.05"/>
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="15" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <!-- Glowing Grid Background inside SVG -->
+            <path d="M50 250 L550 250 M300 50 L300 450" stroke="rgba(15,23,42,0.05)" stroke-width="1" stroke-dasharray="10 10"/>
+            <!-- Main Shield Shield -->
+            <path d="M300 40 L520 110 L520 280 C520 400 300 480 300 480 C300 480 80 400 80 280 L80 110 Z" fill="url(#shieldGrad)" stroke="#8BDFDD" stroke-width="2"/>
+            
+            <!-- Hospital Building Element -->
+            <rect x="220" y="180" width="160" height="190" rx="16" fill="rgba(255, 255, 255, 0.8)" stroke="#0F172A" stroke-width="3" filter="drop-shadow(0 15px 25px rgba(0,0,0,0.05))"/>
+            <!-- Roof / Cross -->
+            <path d="M260 180 L300 130 L340 180 Z" fill="#F48F68" stroke="#0F172A" stroke-width="3" stroke-linejoin="round"/>
+            <rect x="290" y="240" width="20" height="50" rx="4" fill="#0F172A" />
+            <rect x="275" y="255" width="50" height="20" rx="4" fill="#0F172A" />
+
+            <!-- Denied Claim Paper (Falling / Burning) -->
+            <rect x="120" y="180" width="60" height="80" rx="4" fill="#FFF" stroke="#F48F68" stroke-width="2" transform="rotate(-15 120 180)"/>
+            <path d="M130 200 L160 200 M130 220 L170 220" stroke="#F48F68" stroke-width="2" />
+            <!-- Rejection X -->
+            <path d="M140 240 L160 260 M160 240 L140 260" stroke="#F48F68" stroke-width="4" stroke-linecap="round"/>
+
+            <!-- Processed Cleared Claim (Rising) -->
+            <rect x="420" y="160" width="60" height="80" rx="8" fill="#FFF" stroke="#8BDFDD" stroke-width="2" filter="url(#glow)"/>
+            <path d="M430 180 L460 180 M430 200 L470 200" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+            <!-- Checkmark -->
+            <path d="M435 225 L445 235 L465 210" stroke="#8BDFDD" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- Moving Data Particles -->
+            <circle cx="210" cy="270" r="4" fill="#FFE394">
+               <animate attributeName="cx" values="120;210" dur="2s" repeatCount="indefinite"/>
+               <animate attributeName="cy" values="180;270" dur="2s" repeatCount="indefinite"/>
+               <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="420" cy="200" r="4" fill="#8BDFDD">
+               <animate attributeName="cx" values="380;460" dur="2s" repeatCount="indefinite" begin="1s"/>
+               <animate attributeName="cy" values="270;180" dur="2s" repeatCount="indefinite" begin="1s"/>
+               <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="1s"/>
+            </circle>
+          </svg>
+        </div>
+      </section>
+
+      <!-- PROBLEM GRID -->
+      <section class="container section-spacing scroll-fade">
+        <h2 class="title-medium" style="text-align: center; margin-bottom: 4rem;">The Cashless Discharge Crisis</h2>
+        <div class="grid-wrap cards-grid">
+          <div class="glass-card">
+            <div class="icon-box">
+               <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="syne-font" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Bed TAT Bottlenecks</h3>
+            <p>Patients sitting helplessly in corridors for 6-8 hours post-recovery because TPAs drop late-stage manual queries your billing desk cannot resolve instantly.</p>
+          </div>
+          <div class="glass-card">
+            <div class="icon-box">
+               <svg viewBox="0 0 24 24"><path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="syne-font" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Revenue Leakage</h3>
+            <p>Hospitals lose 5-15% of top-line revenue annually by painfully accepting arbitrary, aggressive TPA deductions simply out of desperation to clear beds.</p>
+          </div>
+          <div class="glass-card">
+             <div class="icon-box">
+               <svg viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="syne-font" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Operational Chaos</h3>
+            <p>Non-specialist administrative staff overwhelmed by highly complex insurance lawyer-speak, missing critical submission guidelines and deadlines.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- AGENTIC MOAT -->
+      <section id="features" class="container section-spacing scroll-fade">
+        <div style="max-width: 800px;">
+          <h2 class="title-medium">The Multi-Agent Workflow</h2>
+          <p class="subtitle">Four specialized agents operating in a sequential firewall pipeline. No single point of failure. Zero hallucinations.</p>
+        </div>
+        
+        <div class="workflow-timeline">
+           <div class="workflow-item glass">
+              <div class="wf-number">1</div>
+              <div>
+                 <h3 class="syne-font" style="font-size: 1.5rem; margin-bottom: 0.5rem;">The Compliance Guardian (Local DPDP Privacy)</h3>
+                 <p style="margin:0;">Stripping Aadhaar, names, and patient IDs locally inside the browser. Anonymized data proceeds, keeping your hospital perfectly compliant with India's DPDP Act before touching the cloud.</p>
+              </div>
+           </div>
+           <div class="workflow-item glass">
+              <div class="wf-number">2</div>
+              <div>
+                 <h3 class="syne-font" style="font-size: 1.5rem; margin-bottom: 0.5rem;">The Vision Critic (HITL Handwriting Parser)</h3>
+                 <p style="margin:0;">Incompetent OCR costs money. Our Human-In-The-Loop system catches ambiguous scribble blocks (e.g. 40mg vs 400mg) scoring below 85% confidence and pauses strictly for single-click clerk verification.</p>
+              </div>
+           </div>
+           <div class="workflow-item glass">
+              <div class="wf-number">3</div>
+              <div>
+                 <h3 class="syne-font" style="font-size: 1.5rem; margin-bottom: 0.5rem;">The Clinical Auditor Core</h3>
+                 <p style="margin:0;">A massive 2M-token analytical window absorbs complete patient charts simultaneously. It isolates the exact medical necessity contradicting the TPA's arbitrary financial objection.</p>
+              </div>
+           </div>
+           <div class="workflow-item glass">
+              <div class="wf-number">4</div>
+              <div>
+                 <h3 class="syne-font" style="font-size: 1.5rem; margin-bottom: 0.5rem;">The Legal Appeals Engine (IRDAI RAG)</h3>
+                 <p style="margin:0;">Retrieves hyper-specific Master Circulars and Ombudsman Precedents from a live Vector Database, forging a bulletproof, formatting-ready legal letter ready for portal submission.</p>
+              </div>
+           </div>
+        </div>
+      </section>
+
+      <!-- PRICING -->
+      <section id="pricing" class="container section-spacing scroll-fade">
+        <h2 class="title-medium" style="text-align: center; margin-bottom: 4rem;">Aligning Defense with Growth</h2>
+        <div class="grid-wrap" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: center;">
+          
+          <div class="glass-card pricing-card">
+            <h3 class="syne-font" style="font-size: 1.25rem;">Starter Shield</h3>
+            <div class="price-amount">₹9,999<span class="price-freq">/mo</span></div>
+            <p style="font-size: 0.875rem;">Engineered for small nursing homes (10-30 Beds) fighting manual claims.</p>
+            <ul class="price-list">
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Complete Local Data Anonymization</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> 500 Agentic Rebuttals / Month</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Standard IRDAI RAG Index</li>
+            </ul>
+            <button class="btn btn-outline" style="width: 100%;">Begin Recovery</button>
+          </div>
+
+          <div class="glass-card pricing-card popular">
+            <div class="popular-tag">Performance</div>
+            <h3 class="syne-font" style="font-size: 1.25rem;">Zero-Risk Contingency</h3>
+            <div class="price-amount">5%<span class="price-freq"> fee</span></div>
+            <p style="font-size: 0.875rem;">For busy multispecialty centers (30-50 Beds). We only get paid when you retrieve cash.</p>
+            <ul class="price-list">
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> ZERO Upfront Subscription</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Human-in-the-loop Processing</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Unlimited RAG Generations</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Takes a percentage of Capital SAVED</li>
+            </ul>
+            <button class="btn btn-primary" style="width: 100%;">Partner With Us</button>
+          </div>
+
+          <div class="glass-card pricing-card">
+            <h3 class="syne-font" style="font-size: 1.25rem;">Enterprise Sovereign</h3>
+            <div class="price-amount" style="font-size: 2.25rem;">Custom</div>
+            <p style="font-size: 0.875rem;">For Apollo, Max, Fortis corporate chains automating bulk audits.</p>
+            <ul class="price-list">
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Custom HIS API Integration Layer</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Automated Discharge Pre-Shielding</li>
+              <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Dedicated On-Prem Node Option</li>
+            </ul>
+            <button class="btn btn-outline" style="width: 100%;">Contact Architecture</button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="container section-spacing" style="padding-bottom: 2rem;">
+         <div class="glass-card" style="margin-bottom: 4rem; text-align: center; padding: 4rem 2rem;">
+            <h2 class="title-medium">Start Recovering Your Capital Today.</h2>
+            <p style="max-width: 600px; margin: 0 auto 2rem auto;">Join the 500+ Indian hospitals converting late-stage rejection stress into verified asset recovery.</p>
+            <button class="btn btn-primary" onclick="InsureApp.triggerBoot()">Launch Defense Portal</button>
+         </div>
+         <div class="footer-grid">
+           <div>
+             <a href="#" class="logo" style="margin-bottom: 1rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--teal-primary);">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg> KlaimShield AI
+             </a>
+             <p style="font-size: 0.875rem;">The autonomous operating system for the Indian healthcare economy. Engineering trust through compliance and verifiable reasoning.</p>
+           </div>
+           <div>
+             <h4 class="footer-heading">Platform</h4>
+             <a href="#" class="footer-link">RAG Engine</a>
+             <a href="#" class="footer-link">DPDP Masking Protocol</a>
+             <a href="#" class="footer-link">Enterprise Integration</a>
+           </div>
+           <div>
+             <h4 class="footer-heading">Legal</h4>
+             <a href="#" class="footer-link">Privacy Policy</a>
+             <a href="#" class="footer-link">Terms of Service</a>
+             <a href="#" class="footer-link">IRDAI Compliance Statement</a>
+           </div>
+         </div>
+         <p style="text-align: center; font-size: 0.75rem;">© 2026 KlaimShield AI Hospital Systems. Crafted for Phase A Validation.</p>
+      </footer>
+    </div>
+
+
+    <!-- ================= VIEW: BOOT SEQUENCE ================= -->
+    <div id="view-boot-sequence" class="view-layer boot-wrap">
+      <div class="simple-loader">
+         <div class="loading-spinner"></div>
+         <h2 style="font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 600; color: var(--text-main); margin: 0;">Loading your defense portal...</h2>
+      </div>
+    </div>
+
+
+    <!-- ================= VIEW: SYSTEM READY (DASHBOARD) ================= -->
+    <div id="view-system-ready" class="view-layer">
+       <div class="dashboard-layout">
+          <!-- SIDEBAR -->
+          <aside class="sidebar">
+             <a href="#" class="sidebar-brand" onclick="InsureApp.goTo('landing')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--teal-primary); vertical-align: middle;">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg> KlaimShield AI
+             </a>
+             <nav class="side-nav">
+                <a href="#" class="side-item active" id="side-tab-dashboard" onclick="InsureApp.switchTab('dashboard')">
+                   <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                   Dashboard Ops
+                </a>
+                <a href="#" class="side-item" id="side-tab-rebuttal" onclick="InsureApp.switchTab('rebuttal')">
+                   <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                   Rebuttal Lab
+                </a>
+                <a href="#" class="side-item">
+                   <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                   IRDAI Policy RAG
+                </a>
+                <a href="#" class="side-item">
+                   <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                   Settings & Cache
+                </a>
+             </nav>
+          </aside>
+
+          <!-- MAIN DESK -->
+          <main class="dash-main">
+             <!-- TAB: DASHBOARD -->
+             <div id="tab-dashboard" class="dash-tab active">
+               <header class="dash-header">
+                  <div>
+                    <h2 class="title-medium" style="margin-bottom:0.25rem;">Houston Defense Portal</h2>
+                    <div class="welcome-text" id="live-date">Good Afternoon, Desk Ops!</div>
+                  </div>
+                  <div class="actions">
+                    <button class="btn btn-primary" onclick="InsureApp.switchTab('rebuttal')">Process New Claim</button>
+                  </div>
+               </header>
+               
+               <!-- METRICS ROUTER -->
+             <section class="stats-row">
+               <div class="glass-card stat-card">
+                 <span class="stat-label">Dispute Pipeline</span>
+                 <span class="stat-value">₹4,85,000</span>
+               </div>
+               <div class="glass-card stat-card">
+                 <span class="stat-label">Leakage Saved</span>
+                 <span class="stat-value highlight">₹3,50,000</span>
+               </div>
+               <div class="glass-card stat-card">
+                 <span class="stat-label">Avg Blocked TAT</span>
+                 <span class="stat-value" style="color:var(--coral-alert)">14 Min</span>
+               </div>
+               <div class="glass-card stat-card">
+                 <span class="stat-label">Audit Engine Score</span>
+                 <span class="stat-value" style="color:#065F46">98.4%</span>
+               </div>
+             </section>
+
+             <!-- PERFORMANCE GRAPH -->
+             <section class="glass-card chart-panel">
+               <div class="chart-header">
+                 <h3 class="chart-title">30-Day Leakage Defense Metrics</h3>
+                 <span class="status-badge badge-green">Real-time Stream Connected</span>
+               </div>
+               <svg class="line-chart" viewBox="0 0 800 250" preserveAspectRatio="none" style="width: 100%; height: 250px;">
+                  <!-- Grid -->
+                  <line x1="0" y1="200" x2="800" y2="200" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4 4" />
+                  <line x1="0" y1="125" x2="800" y2="125" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4 4" />
+                  <line x1="0" y1="50" x2="800" y2="50" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4 4" />
+                  <!-- Target Line -->
+                  <line x1="0" y1="80" x2="800" y2="80" stroke="var(--teal-primary)" stroke-dasharray="8 8" stroke-width="2" />
+                  <text x="0" y="70" fill="var(--teal-primary)" font-size="12" font-family="'Archivo', sans-serif" font-weight="700">BASELINE RECOVERY TARGET</text>
+                  <!-- The Polyline Growth Curve -->
+                  <polyline fill="none" stroke="var(--coral-alert)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+                   points="0,180 100,160 200,90 300,120 400,60 500,110 600,40 700,70 800,20" />
+                  <!-- Data Dots -->
+                  <circle cx="200" cy="90" r="5" fill="var(--teal-primary)" stroke="#FFF" stroke-width="2"/>
+                  <circle cx="400" cy="60" r="5" fill="var(--teal-primary)" stroke="#FFF" stroke-width="2"/>
+                  <circle cx="600" cy="40" r="5" fill="var(--teal-primary)" stroke="#FFF" stroke-width="2"/>
+                  <circle cx="800" cy="20" r="5" fill="var(--teal-primary)" stroke="#FFF" stroke-width="2"/>
+                </svg>
+             </section>
+
+             <!-- ACTIVE DISPUTES TABLE -->
+             <section class="glass-card" style="padding: 1.5rem 0;">
+                <div style="padding: 0 1.5rem 1.5rem 1.5rem;"><h3 class="syne-font" style="font-size: 1.25rem;">Active Trigger Pipeline</h3></div>
+                <div style="overflow-x: auto;">
+                  <table class="data-table">
+                     <thead>
+                       <tr>
+                         <th>Case ID</th>
+                         <th>Intercept Trigger</th>
+                         <th>Provider</th>
+                         <th>Risk Leakage</th>
+                         <th>Response Status</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                       <tr>
+                         <td>#INF-9082</td>
+                         <td>ICU Stay Necessity Extension</td>
+                         <td>Star Health Network</td>
+                         <td>₹45,000</td>
+                         <td><span class="status-badge badge-amber">Awaiting HITL</span></td>
+                       </tr>
+                       <tr>
+                         <td>#INF-9083</td>
+                         <td>Consumable Util Limit Breach</td>
+                         <td>MediAssist Corp</td>
+                         <td>₹12,400</td>
+                         <td><span class="status-badge badge-teal">Rebuttal Formed</span></td>
+                       </tr>
+                       <tr>
+                         <td>#INF-9084</td>
+                         <td>Pre-existing Cardio Flag</td>
+                         <td>Paramount TPA</td>
+                         <td>₹1,18,000</td>
+                         <td><span class="status-badge badge-green">Clearence Pushed</span></td>
+                       </tr>
+                     </tbody>
+                  </table>
+                </div>
+             </section>
+            </div><!-- /tab-dashboard -->
+
+            <!-- TAB: REBUTTAL LAB -->
+            <div id="tab-rebuttal" class="dash-tab">
+               <header class="dash-header">
+                  <div>
+                    <h2 class="title-medium" style="margin-bottom:0.25rem;">Rebuttal Lab</h2>
+                    <div class="welcome-text">Agentic Claim Defense & Visual Verification Workflow</div>
+                  </div>
+                  <div class="actions">
+                    <button class="btn btn-outline" onclick="InsureApp.resetPipeline()">Reset Workflow</button>
+                  </div>
+               </header>
+               
+               <div class="rebuttal-grid">
+                  <!-- Left: Ingestion & Pipeline -->
+                  <div class="glass-card" style="justify-content: flex-start; gap: 0;">
+                     <div class="dropzone-area" id="rebuttal-dropzone" onclick="document.getElementById('file-upload-1').click()">
+                        <svg style="width:40px;height:40px;color:var(--teal-primary);margin-bottom:1rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        <h4 class="syne-font" style="font-size:1.125rem; color:var(--text-main); margin-bottom:0.5rem;">Ingest Clinical Inputs</h4>
+                        <p style="font-size:0.9rem; margin:0; line-height: 1.4;">Drag & drop unstructured doctor notes, pharmacy ledgers, and TPA denial PDFs.</p>
+                        <input type="file" id="file-upload-1" accept=".pdf, image/*" style="display:none;" onchange="alert('File selected: ' + this.files[0].name)" />
+                        <button class="btn btn-outline" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="event.stopPropagation(); document.getElementById('file-upload-1').click()">Browse Files</button>
+                     </div>
+                     
+                     <div class="step-list" id="pipeline-status">
+                        <div class="step-item" id="step-1">
+                           <div class="step-icon">1</div>
+                           <div>Local Privacy Sanitization (DPDP)</div>
+                        </div>
+                        <div class="step-item" id="step-2">
+                           <div class="step-icon">2</div>
+                           <div>Vision-Based Verification (HITL)</div>
+                        </div>
+                        <div class="step-item" id="step-3">
+                           <div class="step-icon">3</div>
+                           <div>Agentic Reasoning & Legal Drafting</div>
+                        </div>
+                     </div>
+                     
+                     <div style="margin-top: 2.5rem; display: flex; gap: 1rem;">
+                        <button class="btn btn-outline" style="flex: 1; padding: 0.875rem;" onclick="InsureApp.resetPipeline()">Go Back</button>
+                        <button class="btn btn-primary" style="flex: 2; padding: 0.875rem;" onclick="InsureApp.startPipeline()" id="btn-pipeline">Execute Defense Engine</button>
+                     </div>
+                  </div>
+
+                  <!-- Right: Interactive HITL & Output -->
+                  <div class="glass-card" id="rebuttal-output" style="justify-content: center; align-items: center; text-align: center; background: #fff;">
+                     <svg style="width:48px;height:48px;color:var(--glass-border);margin-bottom:1.5rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                     <h4 class="syne-font" style="font-size: 1.125rem; color: var(--text-main); margin-bottom: 0.5rem;">Awaiting Inputs</h4>
+                     <p style="font-size: 0.95rem; color:var(--text-muted); margin:0 0 1.5rem 0;">Workflow output, cropped evidence snippets, and HITL verification prompts will appear here.</p>
+                     
+                     <input type="file" id="file-upload-2" accept=".pdf, image/*" style="display:none;" onchange="alert('Evidence added: ' + this.files[0].name)" />
+                     <button class="btn btn-outline" onclick="document.getElementById('file-upload-2').click()">Upload Additional Evidence</button>
+                  </div>
+               </div>
+            </div><!-- /tab-rebuttal -->
+            
+          </main>
+       </div>
+    </div>
+  </main>
+
+  <script>
+    /** INSUREFLOW VANILLA UI CONTROLLER */
+    const InsureApp = {
+      state: {
+        currentView: 'landing'
+      },
+      
+      init() {
+        this.bindEvents();
+        this.setupObservers();
+        this.updateDate();
+      },
+
+      bindEvents() {
+        const mobBtn = document.getElementById('hamburger-btn');
+        const mobNav = document.getElementById('mobile-menu');
+        
+        mobBtn.addEventListener('click', () => {
+          mobBtn.classList.toggle('active');
+          mobNav.classList.toggle('active');
+        });
+
+        // Hide mobile nav on link click
+        document.querySelectorAll('.mob-link').forEach(link => {
+          link.addEventListener('click', () => {
+            mobBtn.classList.remove('active');
+            mobNav.classList.remove('active');
+          });
+        });
+      },
+
+      setupObservers() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+            }
+          });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.scroll-fade').forEach(el => {
+          observer.observe(el);
+        });
+      },
+
+      goTo(viewName) {
+        // Reset scroll position and toggle views
+        window.scrollTo(0,0);
+        document.querySelectorAll('.view-layer').forEach(v => {
+           v.classList.remove('active');
+           v.style.display = 'none'; // Ensure layout shifting goes away immediately
+        });
+        
+        const target = document.getElementById(`view-${viewName}`);
+        if(target) {
+           target.style.display = 'block';
+           // Reflow hack for fade transition
+           void target.offsetWidth; 
+           target.classList.add('active');
+        }
+        
+        if (viewName !== 'landing') {
+           document.getElementById('main-nav').style.display = 'none';
+        } else {
+           document.getElementById('main-nav').style.display = 'flex';
+        }
+        this.state.currentView = viewName;
+      },
+
+      triggerBoot() {
+        this.goTo('boot-sequence');
+        
+        // Hide mobile menu if open
+        document.getElementById('hamburger-btn').classList.remove('active');
+        document.getElementById('mobile-menu').classList.remove('active');
+
+        // Resolve boot to dashboard
+        setTimeout(() => {
+           this.goTo('system-ready');
+        }, 1500);
+      },
+
+      updateDate() {
+        const d = new Date();
+        const opts = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+        document.getElementById('live-date').textContent = `Good Afternoon, Desk Ops! | ${d.toLocaleDateString('en-US', opts)}`;
+      },
+
+      switchTab(tabName) {
+        document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
+        
+        document.getElementById('tab-' + tabName).classList.add('active');
+        document.getElementById('side-tab-' + tabName).classList.add('active');
+        window.scrollTo(0,0);
+      },
+
+      startPipeline() {
+        const btn = document.getElementById('btn-pipeline');
+        btn.disabled = true;
+        btn.textContent = "Processing Inputs...";
+        
+        const out = document.getElementById('rebuttal-output');
+        out.style.justifyContent = 'center';
+        out.style.alignItems = 'center';
+        out.style.textAlign = 'center';
+        
+        this.updateStep(1, 'active');
+        out.innerHTML = `
+           <div class="simple-loader" style="padding: 0; box-shadow:none; border:none; background:transparent;">
+              <div class="loading-spinner"></div>
+              <div>
+                 <h4 class="syne-font" style="margin:0 0 0.5rem 0; font-size:1.125rem;">Stripping PII Locally...</h4>
+                 <p style="font-size:0.9rem; color:var(--text-muted); margin:0;">Ensuring absolute DPDP compliance locally.</p>
+              </div>
+           </div>
+        `;
+        
+        setTimeout(() => {
+           this.updateStep(1, 'completed');
+           this.updateStep(2, 'active');
+           document.getElementById('step-2').classList.add('warning');
+           
+           out.style.justifyContent = 'flex-start';
+           out.style.alignItems = 'flex-start';
+           out.style.textAlign = 'left';
+           
+           out.innerHTML = `
+              <div style="width: 100%; animation: fadeIn 0.4s ease;">
+                 <div style="display:flex; align-items:center; gap:0.5rem; color:var(--coral-alert); margin-bottom:1rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <h3 class="syne-font" style="margin:0; font-size:1.25rem;">Vision Verification Required</h3>
+                 </div>
+                 <p style="font-size:0.95rem; color:var(--text-main); margin-bottom:1.5rem;">Confidence metric dropped below 85% for a handwritten clinical dosage. Please verify the highlighted segment.</p>
+                 
+                 <div style="background: #fafafa; padding: 2.5rem 1.5rem; border-radius: 8px; border: 1px dashed rgba(15,23,42,0.15); margin-bottom: 2rem; text-align:center;">
+                    <!-- Simulated handwriting -->
+                    <span style="font-family:'Caveat', cursive; font-size:2.25rem; color:var(--text-main); background: #fef08a; padding:0 0.5rem; display:inline-block; transform: rotate(-2deg);">Inj. Clexane 40mg</span>
+                    <span style="font-family:'Caveat', cursive; font-size:2.25rem; color:var(--text-main);"> OD x 3 Days</span>
+                 </div>
+                 
+                 <div style="display:flex; gap:1rem;">
+                    <button class="btn btn-outline" style="flex:1;" onclick="InsureApp.resolveHITL('40mg')">Validate: 40mg</button>
+                    <button class="btn btn-outline" style="flex:1;" onclick="InsureApp.resolveHITL('400mg')">Validate: 400mg</button>
+                 </div>
+              </div>
+           `;
+        }, 1500);
+      },
+
+      resolveHITL(value) {
+         document.getElementById('step-2').classList.remove('warning');
+         this.updateStep(2, 'completed');
+         this.updateStep(3, 'active');
+         
+         const out = document.getElementById('rebuttal-output');
+         out.style.justifyContent = 'center';
+         out.style.alignItems = 'center';
+         out.style.textAlign = 'center';
+         
+         out.innerHTML = `
+           <div class="simple-loader" style="padding: 0; box-shadow:none; border:none; background:transparent;">
+              <div class="loading-spinner"></div>
+              <div>
+                 <h4 class="syne-font" style="margin:0 0 0.5rem 0; font-size:1.125rem;">Generative Legal Drafting</h4>
+                 <p style="font-size:0.9rem; color:var(--text-muted); margin:0;">Cross-referencing verified dosage (${value}) against IRDAI master circular section 4.1.</p>
+              </div>
+           </div>
+        `;
+        
+        setTimeout(() => {
+           this.updateStep(3, 'completed');
+           this.showFinalOutput(value);
+        }, 2000);
+      },
+      
+      updateStep(num, status) {
+         const el = document.getElementById('step-' + num);
+         if(status === 'active') {
+            el.className = 'step-item active';
+         } else if(status === 'completed') {
+            el.className = 'step-item completed';
+            el.querySelector('.step-icon').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+         }
+      },
+
+      showFinalOutput(value) {
+         const btn = document.getElementById('btn-pipeline');
+         btn.textContent = "Pipeline Completed  —  Reset";
+         btn.disabled = false;
+         btn.onclick = () => InsureApp.resetPipeline();
+
+         const out = document.getElementById('rebuttal-output');
+         out.style.justifyContent = 'flex-start';
+         out.style.alignItems = 'flex-start';
+         out.style.textAlign = 'left';
+         
+         out.innerHTML = `
+            <div style="width: 100%; animation: fadeIn 0.4s ease;">
+               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap:1rem;">
+                  <div>
+                     <h3 class="syne-font" style="font-size: 1.25rem; margin-bottom: 0.25rem;">Defense Assets Generated</h3>
+                     <span class="status-badge badge-green" style="font-size:0.75rem;">Audit-Ready Score: 100%</span>
+                  </div>
+                  <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="alert('Copied to clipboard!')">Copy to Portal</button>
+               </div>
+               
+               <div style="background: #fafafa; padding: 1.25rem; border-radius: 8px; border: 1px solid var(--glass-border); font-family: monospace; font-size: 0.85rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; text-align: left; max-height: 220px; overflow-y: auto;">
+                  <strong>TO:</strong> Star Health Insurance - Claims Grievance Dept<br/>
+                  <strong>CASE:</strong> #INF-9082<br/>
+                  <strong>SUBJECT:</strong> Unlawful Denial of Medical Necessities (IRDAI Violations)<br/><br/>
+                  To Whom It May Concern,<br/><br/>
+                  The recent denial of line-items referencing "Inj. Clexane ${value}" and extended ICU stabilization is clinically unjustified and directly violates IRDAI Master Circular 2024 §4.2, which strictly shields life-saving emergency consumables during acute interventions.<br/><br/>
+                  Pursuant to the Ombudsman Precedent (Delhi, 2022-HC-114), we demand immediate reversal of the ₹45,000 deduction within 24 hours to prevent official escalation.
+               </div>
+
+               <h4 class="syne-font" style="font-size:0.9rem; margin-bottom:0.75rem; color:var(--text-muted); text-transform:uppercase;">Structured Visual Evidence</h4>
+               <div style="display:flex; gap:1rem;">
+                  <div style="flex:1; background: #fff; border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.75rem;">
+                     <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:0.25rem; text-transform:uppercase; font-weight:700;">Ref A: Verified Dosage</div>
+                     <div style="font-family:'Caveat', cursive; font-size:1.5rem; color:var(--text-main); display:inline-block; line-height: 1;">Inj. Clexane ${value}</div>
+                  </div>
+                  <div style="flex:1; background: #fff; border: 1px solid var(--glass-border); border-radius: 6px; padding: 0.75rem;">
+                     <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:0.25rem; text-transform:uppercase; font-weight:700;">Ref B: Vitals Flowsheet</div>
+                     <div style="font-family:monospace; font-size:0.85rem; color:var(--text-main); display:inline-block; padding-top: 0.25rem;">SpO2 Profile: 48 Hrs</div>
+                  </div>
+               </div>
+            </div>
+         `;
+      },
+
+      resetPipeline() {
+         const btn = document.getElementById('btn-pipeline');
+         btn.textContent = "Execute Defense Engine";
+         btn.onclick = () => InsureApp.startPipeline();
+         
+         [1, 2, 3].forEach(n => {
+            const el = document.getElementById('step-'+n);
+            el.className = 'step-item';
+            el.querySelector('.step-icon').innerHTML = n;
+         });
+
+         const out = document.getElementById('rebuttal-output');
+         out.style.justifyContent = 'center';
+         out.style.alignItems = 'center';
+         out.style.textAlign = 'center';
+         out.innerHTML = `
+            <svg style="width:48px;height:48px;color:var(--glass-border);margin-bottom:1.5rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <h4 class="syne-font" style="font-size: 1.125rem; color: var(--text-main); margin-bottom: 0.5rem;">Awaiting Inputs</h4>
+            <p style="font-size: 0.95rem; color:var(--text-muted); margin:0 0 1.5rem 0;">Workflow output, cropped evidence snippets, and HITL verification prompts will appear here.</p>
+            
+            <input type="file" id="file-upload-2" accept=".pdf, image/*" style="display:none;" onchange="alert('Evidence added: ' + this.files[0].name)" />
+            <button class="btn btn-outline" onclick="document.getElementById('file-upload-2').click()">Upload Additional Evidence</button>
+         `;
+      }
+    };
+
+    // Boot App
+    document.addEventListener('DOMContentLoaded', () => {
+       InsureApp.init();
+    });
+  </script>
+</body>
+</html>
