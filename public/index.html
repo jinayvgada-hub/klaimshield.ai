@@ -306,6 +306,7 @@
         <a href="#features" class="nav-link">The Engine</a>
         <a href="#pricing" class="nav-link">Pricing</a>
         <a href="#testimonials" class="nav-link">Hospitals</a>
+        <a href="#" class="nav-link" onclick="InsureApp.goTo('updates')">Updates</a>
         <a href="#" class="nav-link" onclick="InsureApp.goTo('contact')">Contact Us</a>
       </div>
       <div class="nav-actions">
@@ -560,29 +561,110 @@
     <!-- ================= VIEW: CONTACT US ================= -->
     <div id="view-contact" class="view-layer">
        <div class="container section-spacing" style="padding-top: 8rem; max-width: 600px;">
-          <h2 class="title-medium" style="text-align: center; margin-bottom: 0.5rem;">Contact Sales</h2>
-          <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">Inquire about custom enterprise pricing, integrations, or get a product tour.</p>
+          <h2 class="title-medium" style="text-align: center; margin-bottom: 0.5rem;">Contact Us</h2>
+          <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">Get in touch with us for individual support or enterprise integrations.</p>
           
           <div class="glass-card" style="padding: 3rem; display: flex; flex-direction: column; gap: 1.5rem;">
              <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Full Name</label>
-                <input type="text" class="input-field" placeholder="Dr. Sarah Jenkins" style="width: 100%;">
-             </div>
-             <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Email Address</label>
-                <input type="email" class="input-field" placeholder="sarah@apollo.com" style="width: 100%;">
-             </div>
-             <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Phone Number</label>
-                <input type="tel" class="input-field" placeholder="+91 98765 43210" style="width: 100%;">
-             </div>
-             <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">How can we help?</label>
-                <textarea class="input-field" placeholder="Tell us about your claim volume and HIS setup..." style="width: 100%; min-height: 120px; resize: vertical; padding: 1rem;"></textarea>
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">I am a...</label>
+                <div style="display: flex; gap: 1rem;">
+                  <button id="btn-contact-hospital" class="btn btn-primary" style="flex:1;" onclick="InsureApp.toggleContactMode('hospital')">Hospital</button>
+                  <button id="btn-contact-patient" class="btn btn-outline" style="flex:1;" onclick="InsureApp.toggleContactMode('patient')">Patient</button>
+                </div>
              </div>
              
-             <button class="btn btn-primary" style="padding: 1rem; margin-top: 1rem;" onclick="alert('Thank you! Our sales team will contact you shortly.'); InsureApp.goTo('landing');">Submit Inquiry</button>
+             <!-- Hospital Form Fields -->
+             <div id="contact-fields-hospital" style="display: flex; flex-direction: column; gap: 1.5rem;">
+               <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Hospital Name</label>
+                  <input type="text" class="input-field" placeholder="Apollo Care Network" style="width: 100%;">
+               </div>
+               <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Doctor / Admin Name</label>
+                  <input type="text" class="input-field" placeholder="Dr. Sarah Jenkins" style="width: 100%;">
+               </div>
+               <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Email Address</label>
+                  <input type="email" class="input-field" placeholder="sarah@apollo.com" style="width: 100%;">
+               </div>
+               <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Phone Number</label>
+                  <input type="tel" class="input-field" placeholder="+91 98765 43210" style="width: 100%;">
+               </div>
+               <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">How can we help?</label>
+                  <textarea class="input-field" placeholder="Tell us about your claim volume and HIS setup..." style="width: 100%; min-height: 120px; resize: vertical; padding: 1rem;"></textarea>
+               </div>
+             </div>
+
+             <!-- Patient Form Fields -->
+             <div id="contact-fields-patient" style="display: none; flex-direction: column; gap: 1.5rem;">
+               <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Patient Name</label>
+                  <input type="text" class="input-field" placeholder="John Doe" style="width: 100%;">
+               </div>
+               <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Email Address</label>
+                  <input type="email" class="input-field" placeholder="john.doe@example.com" style="width: 100%;">
+               </div>
+               <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Phone Number</label>
+                  <input type="tel" class="input-field" placeholder="+91 98765 43210" style="width: 100%;">
+               </div>
+               <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">What do you need help with?</label>
+                  <textarea class="input-field" placeholder="Tell us about your claim rejection details..." style="width: 100%; min-height: 120px; resize: vertical; padding: 1rem;"></textarea>
+               </div>
+             </div>
+             
+             <button class="btn btn-primary" style="padding: 1rem; margin-top: 1rem;" onclick="alert('Thank you! Our team will contact you shortly.'); InsureApp.goTo('landing');">Submit Inquiry</button>
              <button class="btn btn-outline" style="padding: 1rem;" onclick="InsureApp.goTo('landing')">Go Back</button>
+          </div>
+       </div>
+    </div>
+
+    <!-- ================= VIEW: UPCOMING UPDATES ================= -->
+    <div id="view-updates" class="view-layer">
+       <div class="container section-spacing" style="padding-top: 8rem;">
+          <h2 class="title-medium" style="text-align: center; margin-bottom: 0.5rem;">Upcoming Updates</h2>
+          <p style="text-align: center; color: var(--text-muted); margin-bottom: 4rem;">Don't worry we got you covered. We are the sales force for hospitals handling operations to insurance claim reimbursements.</p>
+          
+          <div class="grid-wrap" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+             <div class="glass-card" style="text-align: center; padding: 3rem 2rem;">
+                <div class="icon-box" style="margin: 0 auto 1.5rem auto;">
+                   <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                </div>
+                <h3 class="syne-font" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Administration Ops</h3>
+                <p style="color: var(--teal-primary); font-weight: 600; font-size: 0.875rem;">Coming Soon</p>
+             </div>
+             
+             <div class="glass-card" style="text-align: center; padding: 3rem 2rem;">
+                <div class="icon-box" style="margin: 0 auto 1.5rem auto;">
+                   <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                </div>
+                <h3 class="syne-font" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Multi-Language Support</h3>
+                <p style="color: var(--teal-primary); font-weight: 600; font-size: 0.875rem;">Coming Soon</p>
+             </div>
+             
+             <div class="glass-card" style="text-align: center; padding: 3rem 2rem;">
+                <div class="icon-box" style="margin: 0 auto 1.5rem auto;">
+                   <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h3 class="syne-font" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Data Analytics</h3>
+                <p style="color: var(--teal-primary); font-weight: 600; font-size: 0.875rem;">Coming Soon</p>
+             </div>
+             
+             <div class="glass-card" style="text-align: center; padding: 3rem 2rem;">
+                <div class="icon-box" style="margin: 0 auto 1.5rem auto;">
+                   <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h3 class="syne-font" style="font-size: 1.25rem; margin-bottom: 0.5rem;">More AI Features</h3>
+                <p style="color: var(--teal-primary); font-weight: 600; font-size: 0.875rem;">Coming Soon</p>
+             </div>
+          </div>
+          
+          <div style="text-align: center; margin-top: 3rem;">
+            <button class="btn btn-outline" onclick="InsureApp.goTo('landing')">Back to Home</button>
           </div>
        </div>
     </div>
@@ -860,6 +942,24 @@
         this.bindEvents();
         this.setupObservers();
         this.updateDate();
+      },
+
+      toggleContactMode(mode) {
+        if (mode === 'hospital') {
+          document.getElementById('btn-contact-hospital').classList.add('btn-primary');
+          document.getElementById('btn-contact-hospital').classList.remove('btn-outline');
+          document.getElementById('btn-contact-patient').classList.add('btn-outline');
+          document.getElementById('btn-contact-patient').classList.remove('btn-primary');
+          document.getElementById('contact-fields-hospital').style.display = 'flex';
+          document.getElementById('contact-fields-patient').style.display = 'none';
+        } else {
+          document.getElementById('btn-contact-patient').classList.add('btn-primary');
+          document.getElementById('btn-contact-patient').classList.remove('btn-outline');
+          document.getElementById('btn-contact-hospital').classList.add('btn-outline');
+          document.getElementById('btn-contact-hospital').classList.remove('btn-primary');
+          document.getElementById('contact-fields-patient').style.display = 'flex';
+          document.getElementById('contact-fields-hospital').style.display = 'none';
+        }
       },
 
       bindEvents() {
