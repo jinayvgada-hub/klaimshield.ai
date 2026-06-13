@@ -1,6 +1,6 @@
 {
-  "name": "InsureFlow",
-  "description": "Premium SaaS Landing Page and Hospital OS prototype for InsureFlow.",
+  "name": "KlaimShield AI",
+  "description": "Premium SaaS Landing Page and Hospital OS prototype for KlaimShield AI.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
