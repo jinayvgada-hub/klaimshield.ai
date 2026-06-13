@@ -306,6 +306,7 @@
         <a href="#features" class="nav-link">The Engine</a>
         <a href="#pricing" class="nav-link">Pricing</a>
         <a href="#testimonials" class="nav-link">Hospitals</a>
+        <a href="#" class="nav-link" onclick="InsureApp.goTo('contact')">Contact Us</a>
       </div>
       <div class="nav-actions">
         <button class="btn btn-outline" style="border-width: 1px; padding: 0.6rem 1.5rem;" onclick="InsureApp.triggerBoot()">Client Login</button>
@@ -320,6 +321,7 @@
   <div class="mobile-menu" id="mobile-menu">
     <a href="#features" class="mob-link">The Engine</a>
     <a href="#pricing" class="mob-link">Pricing</a>
+    <a href="#" class="mob-link" onclick="InsureApp.goTo('contact')">Contact Us</a>
     <button class="btn btn-primary" onclick="InsureApp.triggerBoot()">Launch Defense Portal</button>
   </div>
 
@@ -454,6 +456,25 @@
                  <p style="margin:0;">Retrieves hyper-specific Master Circulars and Ombudsman Precedents from a live Vector Database, forging a bulletproof, formatting-ready legal letter ready for portal submission.</p>
               </div>
            </div>
+        </div>
+      </section>
+
+      <!-- HOSPITALS (TESTIMONIALS) -->
+      <section id="testimonials" class="container section-spacing scroll-fade">
+        <h2 class="title-medium" style="text-align: center; margin-bottom: 3rem;">Trusted by Leading Multi-Specialty Networks</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; align-items: center;">
+          <div class="glass-card" style="padding: 1.5rem 2.5rem; text-align: center; font-weight: 600; color: var(--text-main);">
+             Apollo Care Network
+          </div>
+          <div class="glass-card" style="padding: 1.5rem 2.5rem; text-align: center; font-weight: 600; color: var(--text-main);">
+             Max Superspeciality
+          </div>
+          <div class="glass-card" style="padding: 1.5rem 2.5rem; text-align: center; font-weight: 600; color: var(--text-main);">
+             Fortis Health
+          </div>
+          <div class="glass-card" style="padding: 1.5rem 2.5rem; text-align: center; font-weight: 600; color: var(--text-main);">
+             Aster Medcity
+          </div>
         </div>
       </section>
 
@@ -770,11 +791,31 @@
                     <h2 class="title-medium" style="margin-bottom:0.25rem;">IRDAI Policy Directory</h2>
                     <div class="welcome-text">Cross-reference verified dosages against master circulars</div>
                   </div>
+                  <div class="actions">
+                    <button class="btn btn-primary" onclick="InsureApp.switchTab('rebuttal')">Process New Claim</button>
+                  </div>
                </header>
-               <div class="glass-card" style="padding: 3rem; text-align: center; border: 1px dashed var(--glass-border); box-shadow: none;">
-                 <svg style="width:48px;height:48px;color:var(--glass-border);margin-bottom:1.5rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                 <h4 class="syne-font" style="font-size: 1.125rem; color: var(--text-main); margin-bottom: 0.5rem;">Policy Viewer</h4>
-                 <p style="font-size: 0.95rem; color:var(--text-muted); margin:0;">Module under construction. Will sync with national IRDAI master circulars.</p>
+               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+                  <div class="glass-card">
+                    <h4 class="syne-font" style="font-size: 1.125rem; color: var(--text-main); margin-bottom: 1rem;">Master Circular Guidelines</h4>
+                    <p style="font-size: 0.95rem; color: var(--text-main); margin-bottom: 1rem;">
+                       The Insurance Regulatory and Development Authority of India (IRDAI) mandates that all health insurance claims must be processed objectively. Insurers cannot arbitrary deny claims based on internal generic criteria if the treating doctor provides evidence.
+                    </p>
+                    <ul style="font-size: 0.95rem; padding-left: 1.5rem; color: var(--text-muted);">
+                       <li style="margin-bottom: 0.5rem;">Circular No. IRDAI/HLT/REG/CIR/193/07/2020</li>
+                       <li style="margin-bottom: 0.5rem;">Standardization of Exclusions</li>
+                       <li style="margin-bottom: 0.5rem;">Turn-around-time limits for processing</li>
+                    </ul>
+                  </div>
+                  <div class="glass-card">
+                    <h4 class="syne-font" style="font-size: 1.125rem; color: var(--text-main); margin-bottom: 1rem;">Insurance Company Protocols</h4>
+                    <ul style="font-size: 0.95rem; padding-left: 1.5rem; color: var(--text-muted);">
+                       <li style="margin-bottom: 0.5rem;"><strong style="color:var(--text-main);">Star Health:</strong> Stringent verification of exact lab reports matching diagnosis.</li>
+                       <li style="margin-bottom: 0.5rem;"><strong style="color:var(--text-main);">HDFC Ergo:</strong> Priority on ICU justification and nursing notes.</li>
+                       <li style="margin-bottom: 0.5rem;"><strong style="color:var(--text-main);">Niva Bupa:</strong> Automated preliminary checks; requires structured itemized billing.</li>
+                       <li style="margin-bottom: 0.5rem;"><strong style="color:var(--text-main);">Care Health:</strong> Demands detailed operation theatre logs for surgical claims.</li>
+                    </ul>
+                  </div>
                </div>
              </div>
              
